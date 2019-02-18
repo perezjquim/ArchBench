@@ -341,7 +341,7 @@
             this.mPort.MaxLength = 8;
             this.mPort.Name = "mPort";
             this.mPort.Size = new System.Drawing.Size(50, 25);
-            this.mPort.Text = "8081";
+            this.mPort.Text = "9000";
             this.mPort.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // toolStripSeparator6
