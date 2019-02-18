@@ -49,7 +49,6 @@ namespace ArchBench.PlugIns.Dispatcher
                     {
                         // Translate data bytes to a ASCII string.
                         string data = Encoding.ASCII.GetString( bytes, 0, count );
-
                         char operation = data[0];
                         string server  = data.Substring( 1, data.IndexOf( '-', 1 ) - 1 );
                         string port    = data.Substring( data.IndexOf( '-', 1 ) + 1 );
@@ -62,6 +61,9 @@ namespace ArchBench.PlugIns.Dispatcher
                                 Unregist( server, int.Parse( port ) );
                                 break;
                         }
+                        var _port = ((IPEndPoint)mListener.LocalEndpoint).Port.ToString();
+
+                        Host.Logger.WriteLine( "data:", _port );						
                     }
 
                     client.Close();

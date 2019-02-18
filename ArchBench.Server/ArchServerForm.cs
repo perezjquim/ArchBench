@@ -55,7 +55,7 @@ namespace ArchBench.Server
         {
             try 
             {
-                TcpClient client = new TcpClient( mRemoteServerAddress.Text, 9000 );
+                TcpClient client = new TcpClient( mRemoteServerAddress.Text, int.Parse( mPort.Text ) );
 
                 Byte[] data = Encoding.ASCII.GetBytes( $"{( mRegistButton.Checked ? '+' : '-' )}{ GetServerIP() }-{ mPort.Text }" );         
 

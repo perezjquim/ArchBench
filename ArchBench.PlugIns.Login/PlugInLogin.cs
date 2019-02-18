@@ -60,7 +60,8 @@ namespace ArchBench.PlugIns.Login
                     {
                         var writer = new StreamWriter(aResponse.Body);
                         writer.WriteLine( "<p>User <strong>{0}</strong> logged on.</p>", aSession["Username"] );
-                        writer.Flush();
+                        writer.WriteLine( "<a href=\"/user/logout/\">Logout</a>" ); 
+						writer.Flush();
                     }
 
                     return true;
