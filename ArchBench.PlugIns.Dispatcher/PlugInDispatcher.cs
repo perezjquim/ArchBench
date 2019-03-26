@@ -60,10 +60,7 @@ namespace ArchBench.PlugIns.Dispatcher
                             case '-' : 
                                 Unregist( server, int.Parse( port ) );
                                 break;
-                        }
-                        var _port = ((IPEndPoint)mListener.LocalEndpoint).Port.ToString();
-
-                        Host.Logger.WriteLine( "data:", _port );						
+                        }                 						
                     }
 
                     client.Close();
