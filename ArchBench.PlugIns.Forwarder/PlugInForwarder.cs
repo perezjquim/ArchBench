@@ -16,6 +16,7 @@ namespace ArchBench.PlugIns.Forwarder
     {
         //private readonly Dictionary<string,string> mServers = new Dictionary<string, string>();
         private readonly List<KeyValuePair<string, int>> mServers = new List<KeyValuePair<string, int>>();
+        private readonly Dictionary<string,int> mSessions = new Dictionary<string, int>();
         private readonly TcpListener mListener;
         private int                  mNextServer;
         private Thread               mRegisterThread;        
@@ -114,8 +115,22 @@ namespace ArchBench.PlugIns.Forwarder
                 string sourceHost = $"{aRequest.Uri.Host}:{aRequest.Uri.Port}";
                 string sourcePath = aRequest.UriPath;
 
- 				if ( mServers.Count == 0 ) return false;
-            	mNextServer = ( mNextServer + 1 ) % mServers.Count;
+                // consultar a lista de "atribuições" de servidores aos clientes
+
+               if( mSessions.ContainsKey(aSession.Id) )
+                {
+                    mNextServer = mSessions[aSession.Id];
+                }
+               else
+                {
+
+                    if (mServers.Count == 0) return false;
+                    mNextServer = (mNextServer + 1) % mServers.Count;
+
+                    mSessions.Add(aSession.Id, mNextServer);
+                }
+
+                
 
                 //string targetHost = mServers[aRequest.UriParts[0]];
                 //string targetPath = aRequest.UriPath.Substring(aRequest.UriPath.IndexOf( '/', 1 ) );
@@ -154,6 +169,7 @@ namespace ArchBench.PlugIns.Forwarder
                     if ( client.ResponseHeaders["Set-Cookie"] != null )
                     {
                         aResponse.AddHeader( "Set-Cookie", client.ResponseHeaders["Set-Cookie"] );
+                        // guardar o registo, para daí em diante associar a este mServer
                     }
 
 
@@ -183,7 +199,7 @@ namespace ArchBench.PlugIns.Forwarder
                     Host.Logger.WriteLine( "Error on plugin Forwarder : {0}", e.Message );
                 }
 
-                return true;
+            return true;
             //}
 
             //return false;
